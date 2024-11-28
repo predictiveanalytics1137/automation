@@ -10,68 +10,6 @@ from src.logging_config import get_logger
 logger = get_logger(__name__)
 
 
-# print("src.finalization module loaded")
-
-# def finalize_and_evaluate_model(best_model_class, best_params, X_train, y_train, X_test, y_test):
-#     """
-#     Finalizes the model by training on the best hyperparameters, evaluates it, 
-#     extracts feature importance, and saves the trained model.
-    
-#     Parameters:
-#     - best_model_class: class of the best model (e.g., XGBRegressor or RandomForestRegressor).
-#     - best_params: dictionary of the best hyperparameters.
-#     - X_train, y_train: training data and labels.
-#     - X_test, y_test: testing data and labels.
-    
-#     Returns:
-#     - final_metrics: dictionary containing RMSE and R-squared metrics.
-#     """
-    
-#     # 1. Initialize the model with the best hyperparameters
-#     print("Initializing the model with best hyperparameters...")
-#     best_model = best_model_class(**best_params)
-    
-#     # 2. Train the final model on the training set
-#     print("Training the model with best hyperparameters...")
-#     best_model.fit(X_train, y_train)
-
-#     # 3. Predict on the test set
-#     print("Predicting on the test set...")
-#     y_pred = best_model.predict(X_test)
-
-#     # 4. Evaluate the model performance
-#     print("Evaluating model performance...")
-#     rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-#     r2 = r2_score(y_test, y_pred)
-    
-#     print(f"RMSE of the final model: {rmse}")
-#     print(f"R-squared of the final model: {r2}")
-    
-#     final_metrics = {'RMSE': rmse, 'R-squared': r2}
-
-#     # 5. Feature Importance (for tree-based models)
-#     if hasattr(best_model, 'feature_importances_'):
-#         print("Extracting feature importances...")
-#         feature_importance = best_model.feature_importances_
-#         sorted_idx = np.argsort(feature_importance)[::-1]
-        
-#         # Plotting Feature Importance
-#         plt.figure(figsize=(12, 8))
-#         sns.barplot(x=feature_importance[sorted_idx], y=np.array(X_train.columns)[sorted_idx], palette='viridis')
-#         plt.title("Feature Importances")
-#         plt.xlabel("Importance Score")
-#         plt.ylabel("Features")
-#         plt.show()
-    
-#     # 6. Save the Model
-#     model_filename = 'best_model.joblib'
-#     joblib.dump(best_model, model_filename)
-#     print(f"Model saved as {model_filename}")
-
-#     return final_metrics
-
-
-
 import joblib
 
 import matplotlib

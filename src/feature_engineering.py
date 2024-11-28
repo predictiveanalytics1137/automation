@@ -9,6 +9,15 @@ from src.logging_config import get_logger
 logger = get_logger(__name__)
 
 
+from sklearn.preprocessing import StandardScaler
+from sklearn.feature_selection import VarianceThreshold
+from itertools import combinations
+import pandas as pd
+import numpy as np
+from src.logging_config import get_logger
+
+logger = get_logger(__name__)
+
 # def feature_engineering(df):
 #     logger.info("Starting feature engineering...")
 #     """
@@ -21,47 +30,56 @@ logger = get_logger(__name__)
 #     Returns:
 #     - df_fe: pandas DataFrame with engineered features
 #     """
-#     df_fe = df.copy()
-#     numerical_columns = df_fe.select_dtypes(include=['float64', 'int64']).columns.tolist()
-#     scaler = StandardScaler()
+#     try:
+#         # Copy the dataframe to avoid modifying the original
+#         df_fe = df.copy()
+#         numerical_columns = df_fe.select_dtypes(include=['float64', 'int64']).columns.tolist()
+#         logger.info(f"Identified numerical columns: {numerical_columns}")
 
-#     # Interaction Terms
-#     for comb in combinations(numerical_columns, 2):
-#         df_fe[f"{comb[0]}_x_{comb[1]}"] = df_fe[comb[0]] * df_fe[comb[1]]
+#         scaler = StandardScaler()
 
-#     # Aggregate Features (Ratios)
-#     for i, col1 in enumerate(numerical_columns):
-#         for col2 in numerical_columns[i + 1:]:
-#             df_fe[f"{col1}_to_{col2}"] = df_fe[col1] / (df_fe[col2] + 1e-5)
+#         # Interaction Terms
+#         logger.info("Creating interaction terms...")
+#         for comb in combinations(numerical_columns, 2):
+#             df_fe[f"{comb[0]}_x_{comb[1]}"] = df_fe[comb[0]] * df_fe[comb[1]]
 
-#     # Normalize Numerical Features
-#     df_fe[numerical_columns] = scaler.fit_transform(df_fe[numerical_columns])
+#         # Aggregate Features (Ratios)
+#         logger.info("Creating aggregate features (ratios)...")
+#         for i, col1 in enumerate(numerical_columns):
+#             for col2 in numerical_columns[i + 1:]:
+#                 df_fe[f"{col1}_to_{col2}"] = df_fe[col1] / (df_fe[col2] + 1e-5)
 
-#     # Log Transformation for Positively Skewed Columns
-#     for col in numerical_columns:
-#         if df_fe[col].min() > 0 and df_fe[col].skew() > 1:
-#             df_fe[col] = np.log1p(df_fe[col])
+#         # Normalize Numerical Features
+#         logger.info("Normalizing numerical features...")
+#         df_fe[numerical_columns] = scaler.fit_transform(df_fe[numerical_columns])
 
-#     # Remove Low Variance and Highly Correlated Features
-#     selector = VarianceThreshold(threshold=0.01)
-#     df_fe = pd.DataFrame(selector.fit_transform(df_fe), columns=df_fe.columns[selector.get_support()])
+#         # Log Transformation for Positively Skewed Columns
+#         logger.info("Applying log transformations for skewed columns...")
+#         for col in numerical_columns:
+#             if df_fe[col].min() > 0 and df_fe[col].skew() > 1:
+#                 df_fe[col] = np.log1p(df_fe[col])
 
-#     corr_matrix = df_fe.corr().abs()
-#     upper_tri = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
-#     to_drop = [column for column in upper_tri.columns if any(upper_tri[column] > 0.9)]
-#     df_fe.drop(columns=to_drop, inplace=True)
+#         # Remove Low Variance Features
+#         logger.info("Removing low variance features...")
+#         selector = VarianceThreshold(threshold=0.01)
+#         df_fe = pd.DataFrame(selector.fit_transform(df_fe), columns=df_fe.columns[selector.get_support()])
 
-#     print(f"Feature engineering complete. Final feature count: {df_fe.shape[1]}")
-#     return df_fe
+#         # Remove Highly Correlated Features
+#         logger.info("Removing highly correlated features...")
+#         corr_matrix = df_fe.corr().abs()
+#         upper_tri = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
+#         to_drop = [column for column in upper_tri.columns if any(upper_tri[column] > 0.9)]
+#         logger.info(f"Dropping {len(to_drop)} highly correlated columns: {to_drop}")
+#         df_fe.drop(columns=to_drop, inplace=True)
 
-from sklearn.preprocessing import StandardScaler
-from sklearn.feature_selection import VarianceThreshold
-from itertools import combinations
-import pandas as pd
-import numpy as np
-from src.logging_config import get_logger
+#         logger.info(f"Feature engineering complete. Final feature count: {df_fe.shape[1]}")
+#         return df_fe
 
-logger = get_logger(__name__)
+#     except Exception as e:
+#         logger.error(f"Error during feature engineering: {e}")
+#         raise
+
+
 
 def feature_engineering(df):
     logger.info("Starting feature engineering...")
@@ -74,6 +92,7 @@ def feature_engineering(df):
     
     Returns:
     - df_fe: pandas DataFrame with engineered features
+    - transformers: A dictionary with transformers like StandardScaler and VarianceThreshold
     """
     try:
         # Copy the dataframe to avoid modifying the original
@@ -82,6 +101,7 @@ def feature_engineering(df):
         logger.info(f"Identified numerical columns: {numerical_columns}")
 
         scaler = StandardScaler()
+        selector = VarianceThreshold(threshold=0.01)
 
         # Interaction Terms
         logger.info("Creating interaction terms...")
@@ -106,7 +126,6 @@ def feature_engineering(df):
 
         # Remove Low Variance Features
         logger.info("Removing low variance features...")
-        selector = VarianceThreshold(threshold=0.01)
         df_fe = pd.DataFrame(selector.fit_transform(df_fe), columns=df_fe.columns[selector.get_support()])
 
         # Remove Highly Correlated Features
@@ -118,7 +137,14 @@ def feature_engineering(df):
         df_fe.drop(columns=to_drop, inplace=True)
 
         logger.info(f"Feature engineering complete. Final feature count: {df_fe.shape[1]}")
-        return df_fe
+        
+        # Return both the engineered dataframe and the transformers used
+        transformers = {
+            'scaler': scaler,
+            'variance_selector': selector
+        }
+
+        return df_fe, transformers
 
     except Exception as e:
         logger.error(f"Error during feature engineering: {e}")
