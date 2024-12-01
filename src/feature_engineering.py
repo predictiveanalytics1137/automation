@@ -1,151 +1,93 @@
-from sklearn.preprocessing import StandardScaler
-from sklearn.feature_selection import VarianceThreshold
-from itertools import combinations
+import os
+import joblib
 import pandas as pd
 import numpy as np
-
+from src.helper import normalize_column_names
 from src.logging_config import get_logger
 
+# Initialize the logger
 logger = get_logger(__name__)
-
-
-from sklearn.preprocessing import StandardScaler
-from sklearn.feature_selection import VarianceThreshold
-from itertools import combinations
-import pandas as pd
-import numpy as np
-from src.logging_config import get_logger
-
-logger = get_logger(__name__)
-
-# def feature_engineering(df):
-#     logger.info("Starting feature engineering...")
-#     """
-#     Automatically performs feature engineering on the DataFrame, including feature creation,
-#     interaction terms, normalization, and feature selection.
-    
-#     Parameters:
-#     - df: pandas DataFrame containing the dataset
-    
-#     Returns:
-#     - df_fe: pandas DataFrame with engineered features
-#     """
-#     try:
-#         # Copy the dataframe to avoid modifying the original
-#         df_fe = df.copy()
-#         numerical_columns = df_fe.select_dtypes(include=['float64', 'int64']).columns.tolist()
-#         logger.info(f"Identified numerical columns: {numerical_columns}")
-
-#         scaler = StandardScaler()
-
-#         # Interaction Terms
-#         logger.info("Creating interaction terms...")
-#         for comb in combinations(numerical_columns, 2):
-#             df_fe[f"{comb[0]}_x_{comb[1]}"] = df_fe[comb[0]] * df_fe[comb[1]]
-
-#         # Aggregate Features (Ratios)
-#         logger.info("Creating aggregate features (ratios)...")
-#         for i, col1 in enumerate(numerical_columns):
-#             for col2 in numerical_columns[i + 1:]:
-#                 df_fe[f"{col1}_to_{col2}"] = df_fe[col1] / (df_fe[col2] + 1e-5)
-
-#         # Normalize Numerical Features
-#         logger.info("Normalizing numerical features...")
-#         df_fe[numerical_columns] = scaler.fit_transform(df_fe[numerical_columns])
-
-#         # Log Transformation for Positively Skewed Columns
-#         logger.info("Applying log transformations for skewed columns...")
-#         for col in numerical_columns:
-#             if df_fe[col].min() > 0 and df_fe[col].skew() > 1:
-#                 df_fe[col] = np.log1p(df_fe[col])
-
-#         # Remove Low Variance Features
-#         logger.info("Removing low variance features...")
-#         selector = VarianceThreshold(threshold=0.01)
-#         df_fe = pd.DataFrame(selector.fit_transform(df_fe), columns=df_fe.columns[selector.get_support()])
-
-#         # Remove Highly Correlated Features
-#         logger.info("Removing highly correlated features...")
-#         corr_matrix = df_fe.corr().abs()
-#         upper_tri = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
-#         to_drop = [column for column in upper_tri.columns if any(upper_tri[column] > 0.9)]
-#         logger.info(f"Dropping {len(to_drop)} highly correlated columns: {to_drop}")
-#         df_fe.drop(columns=to_drop, inplace=True)
-
-#         logger.info(f"Feature engineering complete. Final feature count: {df_fe.shape[1]}")
-#         return df_fe
-
-#     except Exception as e:
-#         logger.error(f"Error during feature engineering: {e}")
-#         raise
+import featuretools as ft
 
 
 
-def feature_engineering(df):
-    logger.info("Starting feature engineering...")
+def feature_engineering(df, target_column=None, dataframe_name="main", training = None):
     """
-    Automatically performs feature engineering on the DataFrame, including feature creation,
-    interaction terms, normalization, and feature selection.
+    Performs automated feature engineering using FeatureTools for both training and prediction.
     
     Parameters:
-    - df: pandas DataFrame containing the dataset
+    - df: pandas DataFrame containing the dataset.
+    - target_column: The name of the target column (optional, only for training).
+    - dataframe_name: Name for the main dataframe in FeatureTools.
+    - feature_defs_path: Path to save/load feature definitions for reproducibility.
     
     Returns:
-    - df_fe: pandas DataFrame with engineered features
-    - transformers: A dictionary with transformers like StandardScaler and VarianceThreshold
+    - feature_matrix: DataFrame with engineered features.
+    - feature_defs: List of feature definitions (only during training).
     """
     try:
-        # Copy the dataframe to avoid modifying the original
-        df_fe = df.copy()
-        numerical_columns = df_fe.select_dtypes(include=['float64', 'int64']).columns.tolist()
-        logger.info(f"Identified numerical columns: {numerical_columns}")
+        # Separate the target column if provided
+        if target_column:
+            target = df[target_column]
+            df = df.drop(columns=[target_column])
+        else:
+            target = None
 
-        scaler = StandardScaler()
-        selector = VarianceThreshold(threshold=0.01)
+        # Identify binary columns
+        binary_columns = df.columns[(df.nunique() == 2) & (df.dtypes == "int64") | (df.dtypes == "float64")].tolist()
 
-        # Interaction Terms
-        logger.info("Creating interaction terms...")
-        for comb in combinations(numerical_columns, 2):
-            df_fe[f"{comb[0]}_x_{comb[1]}"] = df_fe[comb[0]] * df_fe[comb[1]]
+        # Exclude binary columns temporarily for feature engineering
+        non_binary_df = df.drop(columns=binary_columns)
 
-        # Aggregate Features (Ratios)
-        logger.info("Creating aggregate features (ratios)...")
-        for i, col1 in enumerate(numerical_columns):
-            for col2 in numerical_columns[i + 1:]:
-                df_fe[f"{col1}_to_{col2}"] = df_fe[col1] / (df_fe[col2] + 1e-5)
+        # Create an EntitySet
+        entity_set = ft.EntitySet()
 
-        # Normalize Numerical Features
-        logger.info("Normalizing numerical features...")
-        df_fe[numerical_columns] = scaler.fit_transform(df_fe[numerical_columns])
-
-        # Log Transformation for Positively Skewed Columns
-        logger.info("Applying log transformations for skewed columns...")
-        for col in numerical_columns:
-            if df_fe[col].min() > 0 and df_fe[col].skew() > 1:
-                df_fe[col] = np.log1p(df_fe[col])
-
-        # Remove Low Variance Features
-        logger.info("Removing low variance features...")
-        df_fe = pd.DataFrame(selector.fit_transform(df_fe), columns=df_fe.columns[selector.get_support()])
-
-        # Remove Highly Correlated Features
-        logger.info("Removing highly correlated features...")
-        corr_matrix = df_fe.corr().abs()
-        upper_tri = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
-        to_drop = [column for column in upper_tri.columns if any(upper_tri[column] > 0.9)]
-        logger.info(f"Dropping {len(to_drop)} highly correlated columns: {to_drop}")
-        df_fe.drop(columns=to_drop, inplace=True)
-
-        logger.info(f"Feature engineering complete. Final feature count: {df_fe.shape[1]}")
+        # Add the non-binary dataframe to the EntitySet
+        entity_set = entity_set.add_dataframe(
+            dataframe_name=dataframe_name,
+            dataframe=non_binary_df,
+            index="index",  # Add a unique index if none exists
+            make_index=True,
+        )
+        feature_defs_path = "featurengineering_feature_defs.pkl"
+        if not training:
+            # Prediction phase: Load precomputed feature definitions
+            if not os.path.exists(feature_defs_path):
+                raise RuntimeError("Feature definitions file not found for prediction.")
+            feature_defs = joblib.load(feature_defs_path)
+            feature_matrix = ft.calculate_feature_matrix(
+                features=feature_defs,
+                entityset=entity_set,
+                verbose=True,
+            )
+        else:
+            # Generate feature definitions using DFS during training
+            feature_matrix, feature_defs = ft.dfs(
+                entityset=entity_set,
+                target_dataframe_name=dataframe_name,
+                agg_primitives=["mean", "sum", "min", "max", "std"],
+                trans_primitives=["add_numeric", "subtract_numeric", "divide_numeric"],
+                max_depth=1,
+                verbose=True,
+            )
+            # Save feature definitions
+            joblib.dump(feature_defs, feature_defs_path)
         
-        # Return both the engineered dataframe and the transformers used
-        transformers = {
-            'scaler': scaler,
-            'variance_selector': selector
-        }
 
-        return df_fe, transformers
+        # Handle NaN and infinite values in the generated features
+        feature_matrix.replace([np.inf, -np.inf], np.nan, inplace=True)
+        feature_matrix.fillna(0, inplace=True)
+        
+        # Normalize feature names for consistency
+        feature_matrix = normalize_column_names(feature_matrix)
+
+        # Add back the binary columns and the target column if applicable
+        feature_matrix = pd.concat([feature_matrix, df[binary_columns]], axis=1)
+        if target is not None:
+            feature_matrix[target_column] = target
+
+        # Return the feature matrix and feature definitions (only for training)
+        return feature_matrix, feature_defs if not feature_defs_path else None
 
     except Exception as e:
-        logger.error(f"Error during feature engineering: {e}")
-        raise
+        raise RuntimeError(f"Error during feature engineering: {e}")

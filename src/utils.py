@@ -1,46 +1,46 @@
 
 from sklearn.impute import SimpleImputer, KNNImputer
-from sklearn.experimental import enable_iterative_imputer  # Needed to enable IterativeImputer
 from sklearn.impute import IterativeImputer
-from sklearn.preprocessing import StandardScaler, OrdinalEncoder
-from category_encoders import TargetEncoder
 import pandas as pd
 from src.logging_config import get_logger
+from sklearn.impute import SimpleImputer, KNNImputer, IterativeImputer
+
+
+from sklearn.impute import SimpleImputer, KNNImputer
+from sklearn.impute import IterativeImputer
 
 logger = get_logger(__name__)
 
 
-from sklearn.impute import SimpleImputer, KNNImputer
-from sklearn.experimental import enable_iterative_imputer  # Needed to enable IterativeImputer
-from sklearn.impute import IterativeImputer
-from sklearn.preprocessing import OrdinalEncoder
-from src.logging_config import get_logger
+'''
+
+1. Why are we removing the target column in automatic_imputation?
+Answer: Yes, this is a necessary step because the target column should not be imputed. 
+Imputation is performed on features (independent variables), not on the target (dependent variable), 
+as the target is what the model is trying to predict. Imputing the target could introduce bias or compromise the validity of the model.
 
 
-from sklearn.impute import SimpleImputer, KNNImputer, IterativeImputer
-from sklearn.preprocessing import OrdinalEncoder
-import joblib
-import logging
 
-logger = logging.getLogger(__name__)
+4. Why are we skipping the target column in the imputation step?
+Answer: Skipping the target column during imputation is necessary because:
 
-def automatic_imputation(df, target_column, threshold_knn=0.05, threshold_iterative=0.15):
+Imputation alters the data by filling missing values with estimations (mean, median, KNN, etc.).
+If the target column is imputed, the model's learning process can become biased or invalid as the target values should reflect the true labels without manipulation.
+Thus, skipping the target column is correct and necessary.
+
+
+'''
+
+
+
+
+def automatic_imputation(df, target_column, threshold_knn=0.05, threshold_iterative=0.15, imputers=None):
     """
-    Automatically imputes missing values for both numerical and categorical features.
-    
-    Parameters:
-    - df: pandas DataFrame containing the dataset
-    - target_column: string, the name of the target column (it will not be imputed)
-    - threshold_knn: float, the percentage of missing values threshold to apply KNN imputation
-    - threshold_iterative: float, the percentage of missing values threshold to apply Iterative Imputer
-    
-    Returns:
-    - df: pandas DataFrame with imputed values
-    - imputers: Dictionary of imputers used for each column
+    Automatically imputes missing values for numerical and categorical features.
     """
     try:
         logger.info("Starting automatic imputation...")
-        
+
         # Separate numerical and categorical columns
         numerical_columns = df.select_dtypes(include=['float64', 'int64']).columns.tolist()
         categorical_columns = df.select_dtypes(include=['object']).columns.tolist()
@@ -54,14 +54,9 @@ def automatic_imputation(df, target_column, threshold_knn=0.05, threshold_iterat
         logger.info(f"Numerical columns: {numerical_columns}")
         logger.info(f"Categorical columns: {categorical_columns}")
 
-        # Ordinal encoding for categorical columns
-        ordinal_encoder = OrdinalEncoder(handle_unknown='use_encoded_value', unknown_value=-1)
-        if categorical_columns:
-            logger.info("Applying ordinal encoding to categorical columns...")
-            df[categorical_columns] = ordinal_encoder.fit_transform(df[categorical_columns])
-
-        # Dictionary to store the imputers
-        imputers = {}
+        # If imputers are not provided (training case), initialize an empty dictionary for them
+        if imputers is None:
+            imputers = {}
 
         # Impute missing values for each column based on threshold
         for column in df.columns:
@@ -75,44 +70,30 @@ def automatic_imputation(df, target_column, threshold_knn=0.05, threshold_iterat
                 logger.info(f"Column '{column}' has no missing values. Skipping imputation.")
                 continue
 
-            if column in categorical_columns:
-                if missing_percentage < threshold_knn:
+            # For prediction (when imputers are loaded), apply the saved imputer directly
+            if column in imputers:
+                imputer = imputers[column]
+            else:
+                # Choose imputer based on the threshold and column type
+                if column in categorical_columns:
                     logger.info(f"Applying SimpleImputer (most frequent) to column '{column}'.")
                     imputer = SimpleImputer(strategy='most_frequent')
-                    df[column] = imputer.fit_transform(df[[column]])
-                elif missing_percentage < threshold_iterative:
-                    logger.info("Applying KNNImputer to categorical columns...")
-                    imputer = KNNImputer(n_neighbors=5)
-                    df[categorical_columns] = imputer.fit_transform(df[categorical_columns])
-                else:
-                    logger.info("Applying IterativeImputer to categorical columns...")
-                    imputer = IterativeImputer(max_iter=10, random_state=0)
-                    df[categorical_columns] = imputer.fit_transform(df[categorical_columns])
+                elif column in numerical_columns:
+                    if missing_percentage < threshold_knn:
+                        logger.info(f"Applying SimpleImputer (median) to column '{column}'.")
+                        imputer = SimpleImputer(strategy='median')
+                    elif missing_percentage < threshold_iterative:
+                        logger.info("Applying KNNImputer to numerical columns...")
+                        imputer = KNNImputer(n_neighbors=5)
+                    else:
+                        logger.info("Applying IterativeImputer to numerical columns...")
+                        imputer = IterativeImputer(max_iter=10, random_state=0)
 
-            elif column in numerical_columns:
-                if missing_percentage < threshold_knn:
-                    logger.info(f"Applying SimpleImputer (median) to column '{column}'.")
-                    imputer = SimpleImputer(strategy='median')
-                    df[column] = imputer.fit_transform(df[[column]])
-                elif missing_percentage < threshold_iterative:
-                    logger.info("Applying KNNImputer to numerical columns...")
-                    imputer = KNNImputer(n_neighbors=5)
-                    df[numerical_columns] = imputer.fit_transform(df[numerical_columns])
-                else:
-                    logger.info("Applying IterativeImputer to numerical columns...")
-                    imputer = IterativeImputer(max_iter=10, random_state=0)
-                    df[numerical_columns] = imputer.fit_transform(df[numerical_columns])
+                # Fit the imputer and transform the column
+                df[column] = imputer.fit_transform(df[[column]])
+                imputers[column] = imputer
 
-            # Save the imputer used for each column
-            imputers[column] = imputer
-
-        logger.info(f"the saved imputers is {imputers}")
         logger.info("Imputation complete.")
-        
-        
-        # Save imputers for future use
-        joblib.dump(imputers, 'imputers.joblib')  # Save imputers to a file
-
         return df, imputers
 
     except Exception as e:

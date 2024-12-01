@@ -13,21 +13,12 @@ from sklearn.metrics import accuracy_score, mean_squared_error
 import numpy as np
 
 from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import mean_squared_error, accuracy_score
-import numpy as np
-from src.logging_config import get_logger
 
+from src.logging_config import get_logger
 logger = get_logger(__name__)
 
-from sklearn.model_selection import GridSearchCV
-from sklearn.metrics import mean_squared_error, accuracy_score
-from xgboost import XGBRegressor, XGBClassifier
-from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier, GradientBoostingRegressor, GradientBoostingClassifier
-from lightgbm import LGBMRegressor, LGBMClassifier
-from sklearn.neighbors import KNeighborsRegressor, KNeighborsClassifier
-from sklearn.svm import SVR
-import numpy as np
-from src.logging_config import get_logger
+
+# hyper parameter tuning
 
 logger = get_logger(__name__)
 
@@ -86,7 +77,8 @@ def hyperparameter_tuning(best_model_name, X_train, y_train, X_test, y_test, tas
                 'kernel': ['linear', 'poly'],
                 'C': [0.1, 1],
                 'epsilon': [0.1, 0.2]
-            }
+            },
+            'Linear Regression': {}
         }
         
         # Define models mapping to the best model names
@@ -96,12 +88,22 @@ def hyperparameter_tuning(best_model_name, X_train, y_train, X_test, y_test, tas
             'LightGBM': LGBMRegressor(random_state=42) if task == 'regression' else LGBMClassifier(random_state=42),
             'Gradient Boosting': GradientBoostingRegressor(random_state=42) if task == 'regression' else GradientBoostingClassifier(random_state=42),
             'KNN': KNeighborsRegressor() if task == 'regression' else KNeighborsClassifier(),
-            'SVR': SVR()
+            'SVR': SVR(),
+            'Linear Regression': LinearRegression()
         }
         
         # Select the best model based on the name
         best_model = models[best_model_name]
         param_grid = param_grids[best_model_name]
+
+        # If Linear Regression, skip hyperparameter tuning
+        if best_model_name == 'Linear Regression':
+            best_model.fit(X_train, y_train)
+            logger.info("Linear Regression does not have hyperparameters to tune.")
+            y_pred = best_model.predict(X_test)
+            rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+            logger.info(f"RMSE of the Linear Regression model: {rmse}")
+            return best_model, {}
         
         # Initialize GridSearchCV
         grid_search = GridSearchCV(

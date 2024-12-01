@@ -7,3 +7,5 @@ seaborn
 xgboost
 lightgbm
 joblib
+featuretools
+setuptools

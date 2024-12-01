@@ -7,22 +7,13 @@ from sklearn.metrics import mean_squared_error, r2_score
 import numpy as np
 from src.logging_config import get_logger
 
-logger = get_logger(__name__)
+# import matplotlib
+# matplotlib.use('Agg')
 
-
-import joblib
-
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.metrics import mean_squared_error, r2_score
-import numpy as np
-from src.logging_config import get_logger
 
 logger = get_logger(__name__)
-
 logger.info("src.finalization module loaded")
+
 
 def finalize_and_evaluate_model(best_model_class, best_params, X_train, y_train, X_test, y_test):
     """

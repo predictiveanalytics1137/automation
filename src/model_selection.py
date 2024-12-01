@@ -16,25 +16,7 @@ from src.logging_config import get_logger
 
 logger = get_logger(__name__)
 
-
-
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression, LinearRegression
-from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
-from sklearn.tree import DecisionTreeClassifier, DecisionTreeRegressor
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor, GradientBoostingClassifier, GradientBoostingRegressor, AdaBoostClassifier, AdaBoostRegressor, ExtraTreesClassifier, ExtraTreesRegressor
-from sklearn.svm import SVC, SVR
-from sklearn.naive_bayes import GaussianNB
-from xgboost import XGBClassifier, XGBRegressor
-from lightgbm import LGBMClassifier, LGBMRegressor
-from sklearn.metrics import accuracy_score, mean_squared_error
-from src.logging_config import get_logger
-
-logger = get_logger(__name__)
-
-def train_test_model_selection(df, target_column, task='classification'):
+def train_test_model_selection(df, target_column, task='regression'):
     """
     Splits the dataset into training and testing sets, and evaluates multiple machine learning algorithms.
     
@@ -79,7 +61,7 @@ def train_test_model_selection(df, target_column, task='classification'):
             metric = accuracy_score
         elif task == 'regression':
             models = {
-                'Linear Regression': LinearRegression(),
+                #'Linear Regression': LinearRegression(),
                 'KNN': KNeighborsRegressor(),
                 'Decision Tree': DecisionTreeRegressor(),
                 'Random Forest': RandomForestRegressor(),
