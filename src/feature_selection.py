@@ -10,7 +10,7 @@ from src.logging_config import get_logger
 
 logger = get_logger(__name__)
 
-def feature_selection(df, target_column, task="regression", variance_threshold=0.01, corr_threshold=0.9, top_n_features=None, save_path=None):
+def feature_selection(df, target_column, task="regression", variance_threshold=0.01, corr_threshold=0.9, top_n_features=15, save_path=None):
     """
     Performs sophisticated feature selection using filter, embedded, and wrapper methods.
 
@@ -81,6 +81,9 @@ def feature_selection(df, target_column, task="regression", variance_threshold=0
         else:
             selected_features = X_embedded_filtered.columns.tolist()
             X_final = X_embedded_filtered
+            
+        # Recombine selected features with the target column
+        df_final = pd.concat([X_final, y.reset_index(drop=True)], axis=1)
 
         # 6. Save selected features (optional)
         if save_path:
@@ -88,7 +91,7 @@ def feature_selection(df, target_column, task="regression", variance_threshold=0
             joblib.dump(selected_features, save_path)
 
         logger.info("Feature selection complete.")
-        return X_final, selected_features
+        return df_final, selected_features
 
     except Exception as e:
         logger.error(f"Error during feature selection: {e}")

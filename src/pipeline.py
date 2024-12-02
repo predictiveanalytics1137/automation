@@ -10,8 +10,8 @@ from src.feature_engineering import feature_engineering
 from src.logging_config import get_logger
 import os
 import featuretools as ft
-import pandas as pd
-import joblib
+from src.feature_selection import feature_selection
+
 
 from src.logging_config import get_logger
 from src.helper import normalize_column_names
@@ -55,21 +55,29 @@ def train_pipeline(csv_path, target_column):
         logger.info("Categorical feature encoding complete.")
         
         logger.info("Performing feature engineering...")
-        # df_engineered, feature_transformer = feature_engineering(df_encoded)
         feature_defs_path = os.path.splitext(os.path.basename(csv_path))[0] + "_feature_defs.pkl"
-        #df_engineered, feature_defs = feature_engineering(
-         #   df_encoded, target_column=target_column, feature_defs_path=feature_defs_path
-        #)
+
         df_engineered, feature_defs = feature_engineering(
             df_encoded, target_column=target_column, training = True
         )
         df_engineered = normalize_column_names(df_engineered)
         logger.info("Feature engineering complete.")
 
+        # 4. Perform feature selection
+        logger.info("Performing feature selection...")
+        df_selected, selected_features = feature_selection(
+            df=df_engineered,
+            target_column=target_column,
+            task="regression",
+            save_path='selected_features.pkl'
+    )
+        logger.info(f"Selected features: {selected_features}")
+
+
         # 2. Split data into train and test
         logger.info("Splitting data into training and testing sets...")
         best_model_name, X_train, y_train, X_test, y_test = train_test_model_selection(
-            df_engineered, target_column=target_column, task='regression'
+            df_selected, target_column=target_column, task='regression'
         )
 
         # 3. Scale the target
@@ -132,6 +140,7 @@ def predict_new_data(new_csv_path, feature_defs_path="StudentsPerformance_featur
         saved_feature_names = joblib.load('StudentsPerformance/saved_feature_names.joblib')
         target_scaler = joblib.load('StudentsPerformance/target_scaler.joblib')
         saved_column_names = joblib.load('saved_column_names.pkl')
+        selected_features = joblib.load('selected_features.pkl')
         logger.info("Model and artifacts loaded successfully.")
 
         # Load new data
@@ -148,37 +157,18 @@ def predict_new_data(new_csv_path, feature_defs_path="StudentsPerformance_featur
         logger.info("Applying feature engineering using saved feature definitions...")
         #feature_defs = joblib.load("featurengineering_feature_defs.pkl")
         feature_matrix, _ = feature_engineering(new_data_processed, training=False)
-        # Ensure the index matches the format during training
-        #if "index" not in new_data_processed.columns:
-         #   new_data_processed["index"] = range(len(new_data_processed))  # Add a unique index column
-            
-         # Create an EntitySet for the new data
-        #entity_set = ft.EntitySet(id="entity_set")
-        #entity_set = entity_set.add_dataframe(
-         #   dataframe_name="main",
-          #  dataframe=new_data_processed,
-           # index="index"  # Use the "index" column as the unique identifier
-        #)
-        
-        #feature_matrix = ft.calculate_feature_matrix(
-        #    features=feature_defs,
-         #   entityset=entity_set,
-          #  verbose=True
-        #)
+        feature_matrix = normalize_column_names(feature_matrix)
+
         logger.info("Feature engineering complete.")
 
-        # Align features with the training data
-        logger.info("Aligning features with the training data...")
-        #missing_cols = [col for col in saved_feature_names if col not in feature_matrix.columns]
-        #for col in missing_cols:
-         #   feature_matrix[col] = 0  # Add missing columns with default values
-        #feature_matrix = feature_matrix[saved_feature_names]  # Align column order
-        #logger.info("Feature alignment complete.")
-        feature_matrix = normalize_column_names(feature_matrix)
+        logger.info("Applying feature selection...")
+        selected_feature_matrix = feature_matrix[selected_features]  # Align with selected features from training
+        logger.info(f"Feature matrix reduced to selected features: {selected_feature_matrix.shape}")
+
 
         # Predict on the processed new data
         logger.info("Making predictions...")
-        predictions_scaled = model.predict(feature_matrix)
+        predictions_scaled = model.predict(selected_feature_matrix)
 
         # Check the shape before reshaping
         logger.info(f"Predictions before reshape: {predictions_scaled.shape}")

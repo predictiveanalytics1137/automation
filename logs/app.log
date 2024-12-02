@@ -1,432 +1,147 @@
-2024-12-01 10:15:50,229 - src.finalization - INFO - src.finalization module loaded
-2024-12-01 10:15:50,250 - src.pipeline - INFO - Loading dataset from data/StudentsPerformance.csv...
-2024-12-01 10:15:50,254 - src.pipeline - INFO - Dataset loaded successfully. Shape: (1000, 8)
-2024-12-01 10:15:50,254 - src.pipeline - INFO - Starting missing value imputation...
-2024-12-01 10:15:50,254 - root - INFO - Starting automatic imputation...
-2024-12-01 10:15:50,255 - root - INFO - Numerical columns: ['reading_score', 'writing_score']
-2024-12-01 10:15:50,255 - root - INFO - Categorical columns: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
-2024-12-01 10:15:50,255 - root - INFO - Processing column 'gender' with 0.00% missing values.
-2024-12-01 10:15:50,255 - root - INFO - Column 'gender' has no missing values. Skipping imputation.
-2024-12-01 10:15:50,256 - root - INFO - Processing column 'race_ethnicity' with 0.00% missing values.
-2024-12-01 10:15:50,256 - root - INFO - Column 'race_ethnicity' has no missing values. Skipping imputation.
-2024-12-01 10:15:50,256 - root - INFO - Processing column 'parental_level_of_education' with 0.00% missing values.
-2024-12-01 10:15:50,256 - root - INFO - Column 'parental_level_of_education' has no missing values. Skipping imputation.
-2024-12-01 10:15:50,256 - root - INFO - Processing column 'lunch' with 0.00% missing values.
-2024-12-01 10:15:50,256 - root - INFO - Column 'lunch' has no missing values. Skipping imputation.
-2024-12-01 10:15:50,257 - root - INFO - Processing column 'test_preparation_course' with 0.00% missing values.
-2024-12-01 10:15:50,257 - root - INFO - Column 'test_preparation_course' has no missing values. Skipping imputation.
-2024-12-01 10:15:50,257 - root - INFO - Processing column 'reading_score' with 0.00% missing values.
-2024-12-01 10:15:50,257 - root - INFO - Column 'reading_score' has no missing values. Skipping imputation.
-2024-12-01 10:15:50,257 - root - INFO - Processing column 'writing_score' with 0.00% missing values.
-2024-12-01 10:15:50,257 - root - INFO - Column 'writing_score' has no missing values. Skipping imputation.
-2024-12-01 10:15:50,257 - root - INFO - Imputation complete.
-2024-12-01 10:15:50,257 - src.pipeline - INFO - Missing value imputation complete.
-2024-12-01 10:15:50,257 - src.pipeline - INFO - Handling categorical features...
-2024-12-01 10:15:50,257 - src.data_preprocessing - INFO - Starting to handle categorical features...
-2024-12-01 10:15:50,258 - src.data_preprocessing - INFO - Categorical columns identified: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
-2024-12-01 10:15:50,258 - src.data_preprocessing - INFO - Processing column 'gender' with 2 unique values.
-2024-12-01 10:15:50,260 - src.data_preprocessing - INFO - Processing column 'race_ethnicity' with 5 unique values.
-2024-12-01 10:15:50,262 - src.data_preprocessing - INFO - Processing column 'parental_level_of_education' with 6 unique values.
-2024-12-01 10:15:50,263 - src.data_preprocessing - INFO - Processing column 'lunch' with 2 unique values.
-2024-12-01 10:15:50,265 - src.data_preprocessing - INFO - Processing column 'test_preparation_course' with 2 unique values.
-2024-12-01 10:15:50,271 - src.data_preprocessing - INFO - Completed handling of categorical features.
-2024-12-01 10:15:50,272 - src.pipeline - INFO - Categorical feature encoding complete.
-2024-12-01 10:15:50,272 - src.pipeline - INFO - Performing feature engineering...
-2024-12-01 10:15:50,300 - src.pipeline - INFO - Feature engineering complete.
-2024-12-01 10:15:50,300 - src.pipeline - INFO - Splitting data into training and testing sets...
-2024-12-01 10:15:50,301 - src.model_selection - INFO - Starting train-test split and model selection...
-2024-12-01 10:15:50,301 - src.model_selection - INFO - Cleaned column names: ['reading_score', 'writing_score', 'reading_score__plus__writing_score', 'reading_score__divide__writing_score', 'writing_score__divide__reading_score', 'reading_score__minus__writing_score', 'race_ethnicity', 'parental_level_of_education', 'gender_female', 'gender_male', 'lunch_free_divide_reduced', 'lunch_standard', 'test_preparation_course_completed', 'test_preparation_course_none', 'math_score']
-2024-12-01 10:15:50,302 - src.model_selection - INFO - Splitting dataset into training and testing sets with target column: math_score
-2024-12-01 10:15:50,303 - src.model_selection - INFO - Train-test split completed. Training size: 800, Testing size: 200
-2024-12-01 10:15:50,303 - src.model_selection - INFO - Training KNN...
-2024-12-01 10:15:50,309 - src.model_selection - INFO - Model: KNN, Score: 9.240876581796773
-2024-12-01 10:15:50,309 - src.model_selection - INFO - Training Decision Tree...
-2024-12-01 10:15:50,316 - src.model_selection - INFO - Model: Decision Tree, Score: 9.014987520790031
-2024-12-01 10:15:50,316 - src.model_selection - INFO - Training Random Forest...
-2024-12-01 10:15:50,682 - src.model_selection - INFO - Model: Random Forest, Score: 6.343338555332294
-2024-12-01 10:15:50,682 - src.model_selection - INFO - Training Gradient Boosting...
-2024-12-01 10:15:50,828 - src.model_selection - INFO - Model: Gradient Boosting, Score: 5.797129251418118
-2024-12-01 10:15:50,828 - src.model_selection - INFO - Training SVR...
-2024-12-01 10:15:50,864 - src.model_selection - INFO - Model: SVR, Score: 9.602719042354936
-2024-12-01 10:15:50,864 - src.model_selection - INFO - Training XGBoost...
-2024-12-01 10:15:50,937 - src.model_selection - INFO - Model: XGBoost, Score: 6.419123869806495
-2024-12-01 10:15:50,937 - src.model_selection - INFO - Training AdaBoost...
-2024-12-01 10:15:51,060 - src.model_selection - INFO - Model: AdaBoost, Score: 6.200808916378714
-2024-12-01 10:15:51,060 - src.model_selection - INFO - Training Extra Trees...
-2024-12-01 10:15:51,320 - src.model_selection - INFO - Model: Extra Trees, Score: 6.591854945688656
-2024-12-01 10:15:51,320 - src.model_selection - INFO - Training LightGBM...
-2024-12-01 10:15:51,424 - src.model_selection - INFO - Model: LightGBM, Score: 6.5417672314636
-2024-12-01 10:15:51,425 - src.model_selection - INFO - 
+2024-12-02 16:36:38,886 - src.finalization - INFO - src.finalization module loaded
+2024-12-02 16:36:39,373 - src.pipeline - INFO - Loading dataset from data/StudentsPerformance.csv...
+2024-12-02 16:36:39,391 - src.pipeline - INFO - Dataset loaded successfully. Shape: (1000, 8)
+2024-12-02 16:36:39,391 - src.pipeline - INFO - Starting missing value imputation...
+2024-12-02 16:36:39,391 - src.utils - INFO - Starting automatic imputation...
+2024-12-02 16:36:39,392 - src.utils - INFO - Numerical columns: ['reading_score', 'writing_score']
+2024-12-02 16:36:39,392 - src.utils - INFO - Categorical columns: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
+2024-12-02 16:36:39,392 - src.utils - INFO - Processing column 'gender' with 0.00% missing values.
+2024-12-02 16:36:39,393 - src.utils - INFO - Column 'gender' has no missing values. Skipping imputation.
+2024-12-02 16:36:39,393 - src.utils - INFO - Processing column 'race_ethnicity' with 0.00% missing values.
+2024-12-02 16:36:39,393 - src.utils - INFO - Column 'race_ethnicity' has no missing values. Skipping imputation.
+2024-12-02 16:36:39,393 - src.utils - INFO - Processing column 'parental_level_of_education' with 0.00% missing values.
+2024-12-02 16:36:39,393 - src.utils - INFO - Column 'parental_level_of_education' has no missing values. Skipping imputation.
+2024-12-02 16:36:39,393 - src.utils - INFO - Processing column 'lunch' with 0.00% missing values.
+2024-12-02 16:36:39,394 - src.utils - INFO - Column 'lunch' has no missing values. Skipping imputation.
+2024-12-02 16:36:39,394 - src.utils - INFO - Processing column 'test_preparation_course' with 0.00% missing values.
+2024-12-02 16:36:39,394 - src.utils - INFO - Column 'test_preparation_course' has no missing values. Skipping imputation.
+2024-12-02 16:36:39,394 - src.utils - INFO - Processing column 'reading_score' with 0.00% missing values.
+2024-12-02 16:36:39,394 - src.utils - INFO - Column 'reading_score' has no missing values. Skipping imputation.
+2024-12-02 16:36:39,394 - src.utils - INFO - Processing column 'writing_score' with 0.00% missing values.
+2024-12-02 16:36:39,394 - src.utils - INFO - Column 'writing_score' has no missing values. Skipping imputation.
+2024-12-02 16:36:39,394 - src.utils - INFO - Imputation complete.
+2024-12-02 16:36:39,394 - src.pipeline - INFO - Missing value imputation complete.
+2024-12-02 16:36:39,394 - src.pipeline - INFO - Handling categorical features...
+2024-12-02 16:36:39,394 - src.data_preprocessing - INFO - Starting to handle categorical features...
+2024-12-02 16:36:39,395 - src.data_preprocessing - INFO - Categorical columns identified: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
+2024-12-02 16:36:39,395 - src.data_preprocessing - INFO - Processing column 'gender' with 2 unique values.
+2024-12-02 16:36:39,397 - src.data_preprocessing - INFO - Processing column 'race_ethnicity' with 5 unique values.
+2024-12-02 16:36:39,399 - src.data_preprocessing - INFO - Processing column 'parental_level_of_education' with 6 unique values.
+2024-12-02 16:36:39,400 - src.data_preprocessing - INFO - Processing column 'lunch' with 2 unique values.
+2024-12-02 16:36:39,402 - src.data_preprocessing - INFO - Processing column 'test_preparation_course' with 2 unique values.
+2024-12-02 16:36:39,408 - src.data_preprocessing - INFO - Completed handling of categorical features.
+2024-12-02 16:36:39,408 - src.pipeline - INFO - Categorical feature encoding complete.
+2024-12-02 16:36:39,409 - src.pipeline - INFO - Performing feature engineering...
+2024-12-02 16:36:39,436 - src.pipeline - INFO - Feature engineering complete.
+2024-12-02 16:36:39,436 - src.pipeline - INFO - Performing feature selection...
+2024-12-02 16:36:39,436 - src.feature_selection - INFO - Starting feature selection...
+2024-12-02 16:36:39,437 - src.feature_selection - INFO - Applying VarianceThreshold to remove low-variance features...
+2024-12-02 16:36:39,439 - src.feature_selection - INFO - Features remaining after VarianceThreshold: 12
+2024-12-02 16:36:39,439 - src.feature_selection - INFO - Removing highly correlated features...
+2024-12-02 16:36:39,441 - src.feature_selection - INFO - Features remaining after correlation filter: 7
+2024-12-02 16:36:39,441 - src.feature_selection - INFO - Applying embedded feature selection...
+2024-12-02 16:36:39,444 - src.feature_selection - INFO - Features remaining after embedded method: 7
+2024-12-02 16:36:39,444 - src.feature_selection - INFO - Applying wrapper method (RFE) to select top 15 features...
+2024-12-02 16:36:39,691 - src.feature_selection - INFO - Features remaining after RFE: 7
+2024-12-02 16:36:39,691 - src.feature_selection - INFO - Saving selected features to selected_features.pkl...
+2024-12-02 16:36:39,692 - src.feature_selection - INFO - Feature selection complete.
+2024-12-02 16:36:39,693 - src.pipeline - INFO - Selected features: ['reading_score', 'reading_score__minus__writing_score', 'race_ethnicity', 'parental_level_of_education', 'gender_female', 'lunch_free_divide_reduced', 'test_preparation_course_completed']
+2024-12-02 16:36:39,693 - src.pipeline - INFO - Splitting data into training and testing sets...
+2024-12-02 16:36:39,693 - src.model_selection - INFO - Starting train-test split and model selection...
+2024-12-02 16:36:39,694 - src.model_selection - INFO - Cleaned column names: ['reading_score', 'reading_score__minus__writing_score', 'race_ethnicity', 'parental_level_of_education', 'gender_female', 'lunch_free_divide_reduced', 'test_preparation_course_completed', 'math_score']
+2024-12-02 16:36:39,694 - src.model_selection - INFO - Splitting dataset into training and testing sets with target column: math_score
+2024-12-02 16:36:39,695 - src.model_selection - INFO - Train-test split completed. Training size: 800, Testing size: 200
+2024-12-02 16:36:39,695 - src.model_selection - INFO - Training KNN...
+2024-12-02 16:36:39,699 - src.model_selection - INFO - Model: KNN, Score: 9.112924887213765
+2024-12-02 16:36:39,700 - src.model_selection - INFO - Training Decision Tree...
+2024-12-02 16:36:39,704 - src.model_selection - INFO - Model: Decision Tree, Score: 8.250454532933322
+2024-12-02 16:36:39,704 - src.model_selection - INFO - Training Random Forest...
+2024-12-02 16:36:39,919 - src.model_selection - INFO - Model: Random Forest, Score: 6.324606148255839
+2024-12-02 16:36:39,919 - src.model_selection - INFO - Training Gradient Boosting...
+2024-12-02 16:36:39,996 - src.model_selection - INFO - Model: Gradient Boosting, Score: 5.609477976301295
+2024-12-02 16:36:39,996 - src.model_selection - INFO - Training SVR...
+2024-12-02 16:36:40,028 - src.model_selection - INFO - Model: SVR, Score: 9.46602906932945
+2024-12-02 16:36:40,028 - src.model_selection - INFO - Training XGBoost...
+2024-12-02 16:36:40,098 - src.model_selection - INFO - Model: XGBoost, Score: 7.190287614955605
+2024-12-02 16:36:40,099 - src.model_selection - INFO - Training AdaBoost...
+2024-12-02 16:36:40,198 - src.model_selection - INFO - Model: AdaBoost, Score: 6.166098929926133
+2024-12-02 16:36:40,198 - src.model_selection - INFO - Training Extra Trees...
+2024-12-02 16:36:40,381 - src.model_selection - INFO - Model: Extra Trees, Score: 6.5439480151510985
+2024-12-02 16:36:40,381 - src.model_selection - INFO - Training LightGBM...
+2024-12-02 16:36:40,499 - src.model_selection - INFO - Model: LightGBM, Score: 6.226236647312023
+2024-12-02 16:36:40,501 - src.model_selection - INFO - 
 Model Selection Complete. Results:
-2024-12-01 10:15:51,429 - src.model_selection - INFO - 
+2024-12-02 16:36:40,505 - src.model_selection - INFO - 
                Model     Score
-3  Gradient Boosting  5.797129
-6           AdaBoost  6.200809
-2      Random Forest  6.343339
-5            XGBoost  6.419124
-8           LightGBM  6.541767
-7        Extra Trees  6.591855
-1      Decision Tree  9.014988
-0                KNN  9.240877
-4                SVR  9.602719
-2024-12-01 10:15:51,429 - src.model_selection - INFO - Best Model: Gradient Boosting
-2024-12-01 10:15:51,431 - src.pipeline - INFO - Scaling the target variable...
-2024-12-01 10:15:51,431 - src.pipeline - INFO - Performing hyperparameter tuning for the best model: Gradient Boosting...
-2024-12-01 10:15:51,431 - src.hyperparameter_tuning - INFO - Starting hyperparameter tuning for Gradient Boosting...
-2024-12-01 10:15:51,431 - src.hyperparameter_tuning - INFO - Performing hyperparameter tuning for Gradient Boosting...
-2024-12-01 10:16:18,724 - src.hyperparameter_tuning - INFO - Best hyperparameters for Gradient Boosting: {'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 500, 'subsample': 0.6}
-2024-12-01 10:16:18,728 - src.hyperparameter_tuning - INFO - RMSE of the tuned Gradient Boosting model: 5.624645510071434
-2024-12-01 10:16:18,728 - src.pipeline - INFO - Finalizing and evaluating the model...
-2024-12-01 10:16:18,728 - src.finalization - INFO - Initializing the model with best hyperparameters...
-2024-12-01 10:16:18,728 - src.finalization - INFO - Training the model with best hyperparameters...
-2024-12-01 10:16:19,298 - src.finalization - INFO - Predicting on the test set...
-2024-12-01 10:16:19,302 - src.finalization - INFO - Evaluating model performance...
-2024-12-01 10:16:19,303 - src.finalization - INFO - RMSE of the final model: 5.652122086176611
-2024-12-01 10:16:19,303 - src.finalization - INFO - R-squared of the final model: 0.8687158127239867
-2024-12-01 10:16:19,305 - src.finalization - INFO - Extracting feature importances...
-2024-12-01 10:16:19,306 - src.finalization - INFO - Plotting feature importances...
-2024-12-01 10:16:19,416 - src.finalization - INFO - Model saved as best_model.joblib
-2024-12-01 10:16:19,416 - src.pipeline - INFO - Final metrics: {'RMSE': np.float64(5.652122086176611), 'R-squared': 0.8687158127239867}
-2024-12-01 10:16:19,416 - src.pipeline - INFO - Saving the model and associated artifacts...
-2024-12-01 10:16:19,430 - src.pipeline - INFO - Model and artifacts saved successfully.
-2024-12-01 10:16:32,544 - src.finalization - INFO - src.finalization module loaded
-2024-12-01 10:16:32,546 - src.pipeline - INFO - Loading trained model and artifacts for prediction...
-2024-12-01 10:16:32,593 - src.pipeline - INFO - Model and artifacts loaded successfully.
-2024-12-01 10:16:32,593 - src.pipeline - INFO - Loading and preprocessing new data from data/Test.csv...
-2024-12-01 10:16:32,601 - src.pipeline - INFO - Applying imputation and encoding to new data...
-2024-12-01 10:16:32,601 - root - INFO - Starting automatic imputation...
-2024-12-01 10:16:32,601 - root - INFO - Numerical columns: ['reading_score', 'writing_score']
-2024-12-01 10:16:32,601 - root - INFO - Categorical columns: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
-2024-12-01 10:16:32,602 - root - INFO - Processing column 'gender' with 0.00% missing values.
-2024-12-01 10:16:32,602 - root - INFO - Column 'gender' has no missing values. Skipping imputation.
-2024-12-01 10:16:32,602 - root - INFO - Processing column 'race_ethnicity' with 0.00% missing values.
-2024-12-01 10:16:32,602 - root - INFO - Column 'race_ethnicity' has no missing values. Skipping imputation.
-2024-12-01 10:16:32,602 - root - INFO - Processing column 'parental_level_of_education' with 0.00% missing values.
-2024-12-01 10:16:32,602 - root - INFO - Column 'parental_level_of_education' has no missing values. Skipping imputation.
-2024-12-01 10:16:32,602 - root - INFO - Processing column 'lunch' with 0.00% missing values.
-2024-12-01 10:16:32,602 - root - INFO - Column 'lunch' has no missing values. Skipping imputation.
-2024-12-01 10:16:32,603 - root - INFO - Processing column 'test_preparation_course' with 0.00% missing values.
-2024-12-01 10:16:32,603 - root - INFO - Column 'test_preparation_course' has no missing values. Skipping imputation.
-2024-12-01 10:16:32,603 - root - INFO - Processing column 'reading_score' with 0.00% missing values.
-2024-12-01 10:16:32,603 - root - INFO - Column 'reading_score' has no missing values. Skipping imputation.
-2024-12-01 10:16:32,603 - root - INFO - Processing column 'writing_score' with 0.00% missing values.
-2024-12-01 10:16:32,603 - root - INFO - Column 'writing_score' has no missing values. Skipping imputation.
-2024-12-01 10:16:32,603 - root - INFO - Imputation complete.
-2024-12-01 10:16:32,603 - src.data_preprocessing - INFO - Starting to handle categorical features...
-2024-12-01 10:16:32,603 - src.data_preprocessing - INFO - Categorical columns identified: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
-2024-12-01 10:16:32,604 - src.data_preprocessing - INFO - Processing column 'gender' with 2 unique values.
-2024-12-01 10:16:32,605 - src.data_preprocessing - INFO - Processing column 'race_ethnicity' with 4 unique values.
-2024-12-01 10:16:32,606 - src.data_preprocessing - INFO - Applied preloaded encoder to column 'race_ethnicity'.
-2024-12-01 10:16:32,606 - src.data_preprocessing - INFO - Processing column 'parental_level_of_education' with 5 unique values.
-2024-12-01 10:16:32,607 - src.data_preprocessing - INFO - Applied preloaded encoder to column 'parental_level_of_education'.
-2024-12-01 10:16:32,608 - src.data_preprocessing - INFO - Processing column 'lunch' with 2 unique values.
-2024-12-01 10:16:32,609 - src.data_preprocessing - INFO - Processing column 'test_preparation_course' with 3 unique values.
-2024-12-01 10:16:32,613 - src.data_preprocessing - INFO - Completed handling of categorical features.
-2024-12-01 10:16:32,614 - src.data_preprocessing - INFO - Aligning columns with training data: ['race_ethnicity', 'parental_level_of_education', 'reading_score', 'writing_score', 'gender_female', 'gender_male', 'lunch_free/reduced', 'lunch_standard', 'test_preparation_course_completed', 'test_preparation_course_none']
-2024-12-01 10:16:32,614 - src.pipeline - INFO - Imputation and encoding complete.
-2024-12-01 10:16:32,614 - src.pipeline - INFO - Applying feature engineering using saved feature definitions...
-2024-12-01 10:16:32,636 - src.pipeline - INFO - Feature engineering complete.
-2024-12-01 10:16:32,636 - src.pipeline - INFO - Aligning features with the training data...
-2024-12-01 10:16:32,636 - src.pipeline - INFO - Making predictions...
-2024-12-01 10:16:32,638 - src.pipeline - INFO - Predictions before reshape: (11,)
-2024-12-01 10:16:32,638 - src.pipeline - INFO - Predictions after reshape: (11,)
-2024-12-01 10:16:32,638 - src.pipeline - INFO - Predictions complete.
-2024-12-01 10:29:31,170 - src.finalization - INFO - src.finalization module loaded
-2024-12-01 10:29:31,174 - src.pipeline - INFO - Loading dataset from data/StudentsPerformance.csv...
-2024-12-01 10:29:31,178 - src.pipeline - INFO - Dataset loaded successfully. Shape: (1000, 8)
-2024-12-01 10:29:31,178 - src.pipeline - INFO - Starting missing value imputation...
-2024-12-01 10:29:31,178 - src.utils - INFO - Starting automatic imputation...
-2024-12-01 10:29:31,178 - src.utils - INFO - Numerical columns: ['reading_score', 'writing_score']
-2024-12-01 10:29:31,179 - src.utils - INFO - Categorical columns: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
-2024-12-01 10:29:31,179 - src.utils - INFO - Processing column 'gender' with 0.00% missing values.
-2024-12-01 10:29:31,179 - src.utils - INFO - Column 'gender' has no missing values. Skipping imputation.
-2024-12-01 10:29:31,179 - src.utils - INFO - Processing column 'race_ethnicity' with 0.00% missing values.
-2024-12-01 10:29:31,179 - src.utils - INFO - Column 'race_ethnicity' has no missing values. Skipping imputation.
-2024-12-01 10:29:31,179 - src.utils - INFO - Processing column 'parental_level_of_education' with 0.00% missing values.
-2024-12-01 10:29:31,180 - src.utils - INFO - Column 'parental_level_of_education' has no missing values. Skipping imputation.
-2024-12-01 10:29:31,180 - src.utils - INFO - Processing column 'lunch' with 0.00% missing values.
-2024-12-01 10:29:31,180 - src.utils - INFO - Column 'lunch' has no missing values. Skipping imputation.
-2024-12-01 10:29:31,180 - src.utils - INFO - Processing column 'test_preparation_course' with 0.00% missing values.
-2024-12-01 10:29:31,180 - src.utils - INFO - Column 'test_preparation_course' has no missing values. Skipping imputation.
-2024-12-01 10:29:31,180 - src.utils - INFO - Processing column 'reading_score' with 0.00% missing values.
-2024-12-01 10:29:31,180 - src.utils - INFO - Column 'reading_score' has no missing values. Skipping imputation.
-2024-12-01 10:29:31,180 - src.utils - INFO - Processing column 'writing_score' with 0.00% missing values.
-2024-12-01 10:29:31,180 - src.utils - INFO - Column 'writing_score' has no missing values. Skipping imputation.
-2024-12-01 10:29:31,180 - src.utils - INFO - Imputation complete.
-2024-12-01 10:29:31,181 - src.pipeline - INFO - Missing value imputation complete.
-2024-12-01 10:29:31,181 - src.pipeline - INFO - Handling categorical features...
-2024-12-01 10:29:31,181 - src.data_preprocessing - INFO - Starting to handle categorical features...
-2024-12-01 10:29:31,181 - src.data_preprocessing - INFO - Categorical columns identified: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
-2024-12-01 10:29:31,181 - src.data_preprocessing - INFO - Processing column 'gender' with 2 unique values.
-2024-12-01 10:29:31,183 - src.data_preprocessing - INFO - Processing column 'race_ethnicity' with 5 unique values.
-2024-12-01 10:29:31,185 - src.data_preprocessing - INFO - Processing column 'parental_level_of_education' with 6 unique values.
-2024-12-01 10:29:31,187 - src.data_preprocessing - INFO - Processing column 'lunch' with 2 unique values.
-2024-12-01 10:29:31,188 - src.data_preprocessing - INFO - Processing column 'test_preparation_course' with 2 unique values.
-2024-12-01 10:29:31,194 - src.data_preprocessing - INFO - Completed handling of categorical features.
-2024-12-01 10:29:31,195 - src.pipeline - INFO - Categorical feature encoding complete.
-2024-12-01 10:29:31,195 - src.pipeline - INFO - Performing feature engineering...
-2024-12-01 10:29:31,223 - src.pipeline - INFO - Feature engineering complete.
-2024-12-01 10:29:31,223 - src.pipeline - INFO - Splitting data into training and testing sets...
-2024-12-01 10:29:31,223 - src.model_selection - INFO - Starting train-test split and model selection...
-2024-12-01 10:29:31,223 - src.model_selection - INFO - Cleaned column names: ['reading_score', 'writing_score', 'reading_score__plus__writing_score', 'reading_score__divide__writing_score', 'writing_score__divide__reading_score', 'reading_score__minus__writing_score', 'race_ethnicity', 'parental_level_of_education', 'gender_female', 'gender_male', 'lunch_free_divide_reduced', 'lunch_standard', 'test_preparation_course_completed', 'test_preparation_course_none', 'math_score']
-2024-12-01 10:29:31,224 - src.model_selection - INFO - Splitting dataset into training and testing sets with target column: math_score
-2024-12-01 10:29:31,225 - src.model_selection - INFO - Train-test split completed. Training size: 800, Testing size: 200
-2024-12-01 10:29:31,225 - src.model_selection - INFO - Training KNN...
-2024-12-01 10:29:31,231 - src.model_selection - INFO - Model: KNN, Score: 9.240876581796773
-2024-12-01 10:29:31,231 - src.model_selection - INFO - Training Decision Tree...
-2024-12-01 10:29:31,238 - src.model_selection - INFO - Model: Decision Tree, Score: 8.807383266328314
-2024-12-01 10:29:31,238 - src.model_selection - INFO - Training Random Forest...
-2024-12-01 10:29:31,603 - src.model_selection - INFO - Model: Random Forest, Score: 6.289878983335052
-2024-12-01 10:29:31,603 - src.model_selection - INFO - Training Gradient Boosting...
-2024-12-01 10:29:31,748 - src.model_selection - INFO - Model: Gradient Boosting, Score: 5.797972086900577
-2024-12-01 10:29:31,748 - src.model_selection - INFO - Training SVR...
-2024-12-01 10:29:31,784 - src.model_selection - INFO - Model: SVR, Score: 9.602719042354936
-2024-12-01 10:29:31,784 - src.model_selection - INFO - Training XGBoost...
-2024-12-01 10:29:31,854 - src.model_selection - INFO - Model: XGBoost, Score: 6.419123869806495
-2024-12-01 10:29:31,854 - src.model_selection - INFO - Training AdaBoost...
-2024-12-01 10:29:31,975 - src.model_selection - INFO - Model: AdaBoost, Score: 6.193854673989222
-2024-12-01 10:29:31,975 - src.model_selection - INFO - Training Extra Trees...
-2024-12-01 10:29:32,234 - src.model_selection - INFO - Model: Extra Trees, Score: 6.603782107625903
-2024-12-01 10:29:32,235 - src.model_selection - INFO - Training LightGBM...
-2024-12-01 10:29:32,330 - src.model_selection - INFO - Model: LightGBM, Score: 6.5417672314636
-2024-12-01 10:29:32,330 - src.model_selection - INFO - 
-Model Selection Complete. Results:
-2024-12-01 10:29:32,334 - src.model_selection - INFO - 
-               Model     Score
-3  Gradient Boosting  5.797972
-6           AdaBoost  6.193855
-2      Random Forest  6.289879
-5            XGBoost  6.419124
-8           LightGBM  6.541767
-7        Extra Trees  6.603782
-1      Decision Tree  8.807383
-0                KNN  9.240877
-4                SVR  9.602719
-2024-12-01 10:29:32,335 - src.model_selection - INFO - Best Model: Gradient Boosting
-2024-12-01 10:29:32,336 - src.pipeline - INFO - Scaling the target variable...
-2024-12-01 10:29:32,336 - src.pipeline - INFO - Performing hyperparameter tuning for the best model: Gradient Boosting...
-2024-12-01 10:29:32,336 - src.pipeline - ERROR - Error during pipeline execution: 'module' object is not callable
-2024-12-01 10:30:45,851 - src.finalization - INFO - src.finalization module loaded
-2024-12-01 10:30:46,316 - src.pipeline - INFO - Loading dataset from data/StudentsPerformance.csv...
-2024-12-01 10:30:46,320 - src.pipeline - INFO - Dataset loaded successfully. Shape: (1000, 8)
-2024-12-01 10:30:46,320 - src.pipeline - INFO - Starting missing value imputation...
-2024-12-01 10:30:46,320 - src.utils - INFO - Starting automatic imputation...
-2024-12-01 10:30:46,320 - src.utils - INFO - Numerical columns: ['reading_score', 'writing_score']
-2024-12-01 10:30:46,321 - src.utils - INFO - Categorical columns: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
-2024-12-01 10:30:46,321 - src.utils - INFO - Processing column 'gender' with 0.00% missing values.
-2024-12-01 10:30:46,321 - src.utils - INFO - Column 'gender' has no missing values. Skipping imputation.
-2024-12-01 10:30:46,321 - src.utils - INFO - Processing column 'race_ethnicity' with 0.00% missing values.
-2024-12-01 10:30:46,321 - src.utils - INFO - Column 'race_ethnicity' has no missing values. Skipping imputation.
-2024-12-01 10:30:46,321 - src.utils - INFO - Processing column 'parental_level_of_education' with 0.00% missing values.
-2024-12-01 10:30:46,322 - src.utils - INFO - Column 'parental_level_of_education' has no missing values. Skipping imputation.
-2024-12-01 10:30:46,322 - src.utils - INFO - Processing column 'lunch' with 0.00% missing values.
-2024-12-01 10:30:46,322 - src.utils - INFO - Column 'lunch' has no missing values. Skipping imputation.
-2024-12-01 10:30:46,322 - src.utils - INFO - Processing column 'test_preparation_course' with 0.00% missing values.
-2024-12-01 10:30:46,322 - src.utils - INFO - Column 'test_preparation_course' has no missing values. Skipping imputation.
-2024-12-01 10:30:46,322 - src.utils - INFO - Processing column 'reading_score' with 0.00% missing values.
-2024-12-01 10:30:46,322 - src.utils - INFO - Column 'reading_score' has no missing values. Skipping imputation.
-2024-12-01 10:30:46,322 - src.utils - INFO - Processing column 'writing_score' with 0.00% missing values.
-2024-12-01 10:30:46,323 - src.utils - INFO - Column 'writing_score' has no missing values. Skipping imputation.
-2024-12-01 10:30:46,323 - src.utils - INFO - Imputation complete.
-2024-12-01 10:30:46,323 - src.pipeline - INFO - Missing value imputation complete.
-2024-12-01 10:30:46,323 - src.pipeline - INFO - Handling categorical features...
-2024-12-01 10:30:46,323 - src.data_preprocessing - INFO - Starting to handle categorical features...
-2024-12-01 10:30:46,323 - src.data_preprocessing - INFO - Categorical columns identified: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
-2024-12-01 10:30:46,323 - src.data_preprocessing - INFO - Processing column 'gender' with 2 unique values.
-2024-12-01 10:30:46,325 - src.data_preprocessing - INFO - Processing column 'race_ethnicity' with 5 unique values.
-2024-12-01 10:30:46,327 - src.data_preprocessing - INFO - Processing column 'parental_level_of_education' with 6 unique values.
-2024-12-01 10:30:46,329 - src.data_preprocessing - INFO - Processing column 'lunch' with 2 unique values.
-2024-12-01 10:30:46,330 - src.data_preprocessing - INFO - Processing column 'test_preparation_course' with 2 unique values.
-2024-12-01 10:30:46,336 - src.data_preprocessing - INFO - Completed handling of categorical features.
-2024-12-01 10:30:46,337 - src.pipeline - INFO - Categorical feature encoding complete.
-2024-12-01 10:30:46,337 - src.pipeline - INFO - Performing feature engineering...
-2024-12-01 10:30:46,367 - src.pipeline - INFO - Feature engineering complete.
-2024-12-01 10:30:46,367 - src.pipeline - INFO - Splitting data into training and testing sets...
-2024-12-01 10:30:46,367 - src.model_selection - INFO - Starting train-test split and model selection...
-2024-12-01 10:30:46,368 - src.model_selection - INFO - Cleaned column names: ['reading_score', 'writing_score', 'reading_score__plus__writing_score', 'reading_score__divide__writing_score', 'writing_score__divide__reading_score', 'reading_score__minus__writing_score', 'race_ethnicity', 'parental_level_of_education', 'gender_female', 'gender_male', 'lunch_free_divide_reduced', 'lunch_standard', 'test_preparation_course_completed', 'test_preparation_course_none', 'math_score']
-2024-12-01 10:30:46,368 - src.model_selection - INFO - Splitting dataset into training and testing sets with target column: math_score
-2024-12-01 10:30:46,370 - src.model_selection - INFO - Train-test split completed. Training size: 800, Testing size: 200
-2024-12-01 10:30:46,370 - src.model_selection - INFO - Training KNN...
-2024-12-01 10:30:46,375 - src.model_selection - INFO - Model: KNN, Score: 9.240876581796773
-2024-12-01 10:30:46,375 - src.model_selection - INFO - Training Decision Tree...
-2024-12-01 10:30:46,383 - src.model_selection - INFO - Model: Decision Tree, Score: 8.884537129192495
-2024-12-01 10:30:46,383 - src.model_selection - INFO - Training Random Forest...
-2024-12-01 10:30:46,750 - src.model_selection - INFO - Model: Random Forest, Score: 6.229736097718925
-2024-12-01 10:30:46,750 - src.model_selection - INFO - Training Gradient Boosting...
-2024-12-01 10:30:46,897 - src.model_selection - INFO - Model: Gradient Boosting, Score: 5.788555759015862
-2024-12-01 10:30:46,897 - src.model_selection - INFO - Training SVR...
-2024-12-01 10:30:46,933 - src.model_selection - INFO - Model: SVR, Score: 9.602719042354936
-2024-12-01 10:30:46,933 - src.model_selection - INFO - Training XGBoost...
-2024-12-01 10:30:47,004 - src.model_selection - INFO - Model: XGBoost, Score: 6.419123869806495
-2024-12-01 10:30:47,004 - src.model_selection - INFO - Training AdaBoost...
-2024-12-01 10:30:47,125 - src.model_selection - INFO - Model: AdaBoost, Score: 6.374542344309865
-2024-12-01 10:30:47,125 - src.model_selection - INFO - Training Extra Trees...
-2024-12-01 10:30:47,384 - src.model_selection - INFO - Model: Extra Trees, Score: 6.582019940717287
-2024-12-01 10:30:47,384 - src.model_selection - INFO - Training LightGBM...
-2024-12-01 10:30:47,479 - src.model_selection - INFO - Model: LightGBM, Score: 6.5417672314636
-2024-12-01 10:30:47,479 - src.model_selection - INFO - 
-Model Selection Complete. Results:
-2024-12-01 10:30:47,483 - src.model_selection - INFO - 
-               Model     Score
-3  Gradient Boosting  5.788556
-2      Random Forest  6.229736
-6           AdaBoost  6.374542
-5            XGBoost  6.419124
-8           LightGBM  6.541767
-7        Extra Trees  6.582020
-1      Decision Tree  8.884537
-0                KNN  9.240877
-4                SVR  9.602719
-2024-12-01 10:30:47,484 - src.model_selection - INFO - Best Model: Gradient Boosting
-2024-12-01 10:30:47,486 - src.pipeline - INFO - Scaling the target variable...
-2024-12-01 10:30:47,486 - src.pipeline - INFO - Performing hyperparameter tuning for the best model: Gradient Boosting...
-2024-12-01 10:30:47,486 - src.hyperparameter_tuning - INFO - Starting hyperparameter tuning for Gradient Boosting...
-2024-12-01 10:30:47,486 - src.hyperparameter_tuning - INFO - Performing hyperparameter tuning for Gradient Boosting...
-2024-12-01 10:31:14,830 - src.hyperparameter_tuning - INFO - Best hyperparameters for Gradient Boosting: {'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 500, 'subsample': 0.6}
-2024-12-01 10:31:14,834 - src.hyperparameter_tuning - INFO - RMSE of the tuned Gradient Boosting model: 5.624645510071434
-2024-12-01 10:31:14,834 - src.pipeline - INFO - Finalizing and evaluating the model...
-2024-12-01 10:31:14,834 - src.finalization - INFO - Initializing the model with best hyperparameters...
-2024-12-01 10:31:14,834 - src.finalization - INFO - Training the model with best hyperparameters...
-2024-12-01 10:31:15,433 - src.finalization - INFO - Predicting on the test set...
-2024-12-01 10:31:15,437 - src.finalization - INFO - Evaluating model performance...
-2024-12-01 10:31:15,438 - src.finalization - INFO - RMSE of the final model: 5.616255448633492
-2024-12-01 10:31:15,438 - src.finalization - INFO - R-squared of the final model: 0.8703767047687279
-2024-12-01 10:31:15,440 - src.finalization - INFO - Extracting feature importances...
-2024-12-01 10:31:15,441 - src.finalization - INFO - Plotting feature importances...
-2024-12-01 10:31:40,726 - src.finalization - INFO - Model saved as best_model.joblib
-2024-12-01 10:31:40,726 - src.pipeline - INFO - Final metrics: {'RMSE': np.float64(5.616255448633492), 'R-squared': 0.8703767047687279}
-2024-12-01 10:31:40,726 - src.pipeline - INFO - Saving the model and associated artifacts...
-2024-12-01 10:31:40,742 - src.pipeline - INFO - Model and artifacts saved successfully.
-2024-12-01 10:33:22,935 - src.finalization - INFO - src.finalization module loaded
-2024-12-01 10:33:23,391 - src.pipeline - INFO - Loading dataset from data/StudentsPerformance.csv...
-2024-12-01 10:33:23,395 - src.pipeline - INFO - Dataset loaded successfully. Shape: (1000, 8)
-2024-12-01 10:33:23,395 - src.pipeline - INFO - Starting missing value imputation...
-2024-12-01 10:33:23,395 - src.utils - INFO - Starting automatic imputation...
-2024-12-01 10:33:23,396 - src.utils - INFO - Numerical columns: ['reading_score', 'writing_score']
-2024-12-01 10:33:23,396 - src.utils - INFO - Categorical columns: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
-2024-12-01 10:33:23,396 - src.utils - INFO - Processing column 'gender' with 0.00% missing values.
-2024-12-01 10:33:23,396 - src.utils - INFO - Column 'gender' has no missing values. Skipping imputation.
-2024-12-01 10:33:23,396 - src.utils - INFO - Processing column 'race_ethnicity' with 0.00% missing values.
-2024-12-01 10:33:23,397 - src.utils - INFO - Column 'race_ethnicity' has no missing values. Skipping imputation.
-2024-12-01 10:33:23,397 - src.utils - INFO - Processing column 'parental_level_of_education' with 0.00% missing values.
-2024-12-01 10:33:23,397 - src.utils - INFO - Column 'parental_level_of_education' has no missing values. Skipping imputation.
-2024-12-01 10:33:23,397 - src.utils - INFO - Processing column 'lunch' with 0.00% missing values.
-2024-12-01 10:33:23,397 - src.utils - INFO - Column 'lunch' has no missing values. Skipping imputation.
-2024-12-01 10:33:23,397 - src.utils - INFO - Processing column 'test_preparation_course' with 0.00% missing values.
-2024-12-01 10:33:23,397 - src.utils - INFO - Column 'test_preparation_course' has no missing values. Skipping imputation.
-2024-12-01 10:33:23,397 - src.utils - INFO - Processing column 'reading_score' with 0.00% missing values.
-2024-12-01 10:33:23,397 - src.utils - INFO - Column 'reading_score' has no missing values. Skipping imputation.
-2024-12-01 10:33:23,398 - src.utils - INFO - Processing column 'writing_score' with 0.00% missing values.
-2024-12-01 10:33:23,398 - src.utils - INFO - Column 'writing_score' has no missing values. Skipping imputation.
-2024-12-01 10:33:23,398 - src.utils - INFO - Imputation complete.
-2024-12-01 10:33:23,398 - src.pipeline - INFO - Missing value imputation complete.
-2024-12-01 10:33:23,398 - src.pipeline - INFO - Handling categorical features...
-2024-12-01 10:33:23,398 - src.data_preprocessing - INFO - Starting to handle categorical features...
-2024-12-01 10:33:23,398 - src.data_preprocessing - INFO - Categorical columns identified: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
-2024-12-01 10:33:23,398 - src.data_preprocessing - INFO - Processing column 'gender' with 2 unique values.
-2024-12-01 10:33:23,400 - src.data_preprocessing - INFO - Processing column 'race_ethnicity' with 5 unique values.
-2024-12-01 10:33:23,402 - src.data_preprocessing - INFO - Processing column 'parental_level_of_education' with 6 unique values.
-2024-12-01 10:33:23,404 - src.data_preprocessing - INFO - Processing column 'lunch' with 2 unique values.
-2024-12-01 10:33:23,406 - src.data_preprocessing - INFO - Processing column 'test_preparation_course' with 2 unique values.
-2024-12-01 10:33:23,412 - src.data_preprocessing - INFO - Completed handling of categorical features.
-2024-12-01 10:33:23,412 - src.pipeline - INFO - Categorical feature encoding complete.
-2024-12-01 10:33:23,413 - src.pipeline - INFO - Performing feature engineering...
-2024-12-01 10:33:23,441 - src.pipeline - INFO - Feature engineering complete.
-2024-12-01 10:33:23,441 - src.pipeline - INFO - Splitting data into training and testing sets...
-2024-12-01 10:33:23,441 - src.model_selection - INFO - Starting train-test split and model selection...
-2024-12-01 10:33:23,441 - src.model_selection - INFO - Cleaned column names: ['reading_score', 'writing_score', 'reading_score__plus__writing_score', 'reading_score__divide__writing_score', 'writing_score__divide__reading_score', 'reading_score__minus__writing_score', 'race_ethnicity', 'parental_level_of_education', 'gender_female', 'gender_male', 'lunch_free_divide_reduced', 'lunch_standard', 'test_preparation_course_completed', 'test_preparation_course_none', 'math_score']
-2024-12-01 10:33:23,442 - src.model_selection - INFO - Splitting dataset into training and testing sets with target column: math_score
-2024-12-01 10:33:23,443 - src.model_selection - INFO - Train-test split completed. Training size: 800, Testing size: 200
-2024-12-01 10:33:23,443 - src.model_selection - INFO - Training KNN...
-2024-12-01 10:33:23,449 - src.model_selection - INFO - Model: KNN, Score: 9.240876581796773
-2024-12-01 10:33:23,449 - src.model_selection - INFO - Training Decision Tree...
-2024-12-01 10:33:23,456 - src.model_selection - INFO - Model: Decision Tree, Score: 8.663140308225419
-2024-12-01 10:33:23,456 - src.model_selection - INFO - Training Random Forest...
-2024-12-01 10:33:23,819 - src.model_selection - INFO - Model: Random Forest, Score: 6.285740530270789
-2024-12-01 10:33:23,819 - src.model_selection - INFO - Training Gradient Boosting...
-2024-12-01 10:33:23,963 - src.model_selection - INFO - Model: Gradient Boosting, Score: 5.796433788033907
-2024-12-01 10:33:23,964 - src.model_selection - INFO - Training SVR...
-2024-12-01 10:33:24,000 - src.model_selection - INFO - Model: SVR, Score: 9.602719042354936
-2024-12-01 10:33:24,000 - src.model_selection - INFO - Training XGBoost...
-2024-12-01 10:33:24,070 - src.model_selection - INFO - Model: XGBoost, Score: 6.419123869806495
-2024-12-01 10:33:24,070 - src.model_selection - INFO - Training AdaBoost...
-2024-12-01 10:33:24,194 - src.model_selection - INFO - Model: AdaBoost, Score: 6.249667577598863
-2024-12-01 10:33:24,194 - src.model_selection - INFO - Training Extra Trees...
-2024-12-01 10:33:24,457 - src.model_selection - INFO - Model: Extra Trees, Score: 6.611365904637255
-2024-12-01 10:33:24,457 - src.model_selection - INFO - Training LightGBM...
-2024-12-01 10:33:24,553 - src.model_selection - INFO - Model: LightGBM, Score: 6.5417672314636
-2024-12-01 10:33:24,554 - src.model_selection - INFO - 
-Model Selection Complete. Results:
-2024-12-01 10:33:24,557 - src.model_selection - INFO - 
-               Model     Score
-3  Gradient Boosting  5.796434
-6           AdaBoost  6.249668
-2      Random Forest  6.285741
-5            XGBoost  6.419124
-8           LightGBM  6.541767
-7        Extra Trees  6.611366
-1      Decision Tree  8.663140
-0                KNN  9.240877
-4                SVR  9.602719
-2024-12-01 10:33:24,558 - src.model_selection - INFO - Best Model: Gradient Boosting
-2024-12-01 10:33:24,560 - src.pipeline - INFO - Scaling the target variable...
-2024-12-01 10:33:24,560 - src.pipeline - INFO - Performing hyperparameter tuning for the best model: Gradient Boosting...
-2024-12-01 10:33:24,560 - src.hyperparameter_tuning - INFO - Starting hyperparameter tuning for Gradient Boosting...
-2024-12-01 10:33:24,560 - src.hyperparameter_tuning - INFO - Performing hyperparameter tuning for Gradient Boosting...
-2024-12-01 10:33:51,456 - src.hyperparameter_tuning - INFO - Best hyperparameters for Gradient Boosting: {'learning_rate': 0.01, 'max_depth': 3, 'n_estimators': 500, 'subsample': 0.6}
-2024-12-01 10:33:51,460 - src.hyperparameter_tuning - INFO - RMSE of the tuned Gradient Boosting model: 5.624645510071434
-2024-12-01 10:33:51,460 - src.pipeline - INFO - Finalizing and evaluating the model...
-2024-12-01 10:33:51,460 - src.finalization - INFO - Initializing the model with best hyperparameters...
-2024-12-01 10:33:51,460 - src.finalization - INFO - Training the model with best hyperparameters...
-2024-12-01 10:33:52,029 - src.finalization - INFO - Predicting on the test set...
-2024-12-01 10:33:52,033 - src.finalization - INFO - Evaluating model performance...
-2024-12-01 10:33:52,033 - src.finalization - INFO - RMSE of the final model: 5.621481007066484
-2024-12-01 10:33:52,033 - src.finalization - INFO - R-squared of the final model: 0.8701353805531342
-2024-12-01 10:33:52,035 - src.finalization - INFO - Extracting feature importances...
-2024-12-01 10:33:52,037 - src.finalization - INFO - Plotting feature importances...
-2024-12-01 10:33:59,125 - src.finalization - INFO - Model saved as best_model.joblib
-2024-12-01 10:33:59,126 - src.pipeline - INFO - Final metrics: {'RMSE': np.float64(5.621481007066484), 'R-squared': 0.8701353805531342}
-2024-12-01 10:33:59,126 - src.pipeline - INFO - Saving the model and associated artifacts...
-2024-12-01 10:33:59,142 - src.pipeline - INFO - Model and artifacts saved successfully.
-2024-12-01 10:34:11,311 - src.finalization - INFO - src.finalization module loaded
-2024-12-01 10:34:11,760 - src.pipeline - INFO - Loading trained model and artifacts for prediction...
-2024-12-01 10:34:11,795 - src.pipeline - INFO - Model and artifacts loaded successfully.
-2024-12-01 10:34:11,795 - src.pipeline - INFO - Loading and preprocessing new data from data/Test.csv...
-2024-12-01 10:34:11,798 - src.pipeline - INFO - Applying imputation and encoding to new data...
-2024-12-01 10:34:11,798 - src.utils - INFO - Starting automatic imputation...
-2024-12-01 10:34:11,798 - src.utils - INFO - Numerical columns: ['reading_score', 'writing_score']
-2024-12-01 10:34:11,798 - src.utils - INFO - Categorical columns: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
-2024-12-01 10:34:11,799 - src.utils - INFO - Processing column 'gender' with 0.00% missing values.
-2024-12-01 10:34:11,799 - src.utils - INFO - Column 'gender' has no missing values. Skipping imputation.
-2024-12-01 10:34:11,799 - src.utils - INFO - Processing column 'race_ethnicity' with 0.00% missing values.
-2024-12-01 10:34:11,799 - src.utils - INFO - Column 'race_ethnicity' has no missing values. Skipping imputation.
-2024-12-01 10:34:11,799 - src.utils - INFO - Processing column 'parental_level_of_education' with 0.00% missing values.
-2024-12-01 10:34:11,799 - src.utils - INFO - Column 'parental_level_of_education' has no missing values. Skipping imputation.
-2024-12-01 10:34:11,799 - src.utils - INFO - Processing column 'lunch' with 0.00% missing values.
-2024-12-01 10:34:11,799 - src.utils - INFO - Column 'lunch' has no missing values. Skipping imputation.
-2024-12-01 10:34:11,800 - src.utils - INFO - Processing column 'test_preparation_course' with 0.00% missing values.
-2024-12-01 10:34:11,800 - src.utils - INFO - Column 'test_preparation_course' has no missing values. Skipping imputation.
-2024-12-01 10:34:11,800 - src.utils - INFO - Processing column 'reading_score' with 0.00% missing values.
-2024-12-01 10:34:11,800 - src.utils - INFO - Column 'reading_score' has no missing values. Skipping imputation.
-2024-12-01 10:34:11,800 - src.utils - INFO - Processing column 'writing_score' with 0.00% missing values.
-2024-12-01 10:34:11,800 - src.utils - INFO - Column 'writing_score' has no missing values. Skipping imputation.
-2024-12-01 10:34:11,800 - src.utils - INFO - Imputation complete.
-2024-12-01 10:34:11,800 - src.data_preprocessing - INFO - Starting to handle categorical features...
-2024-12-01 10:34:11,800 - src.data_preprocessing - INFO - Categorical columns identified: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
-2024-12-01 10:34:11,801 - src.data_preprocessing - INFO - Processing column 'gender' with 2 unique values.
-2024-12-01 10:34:11,802 - src.data_preprocessing - INFO - Processing column 'race_ethnicity' with 4 unique values.
-2024-12-01 10:34:11,803 - src.data_preprocessing - INFO - Applied preloaded encoder to column 'race_ethnicity'.
-2024-12-01 10:34:11,803 - src.data_preprocessing - INFO - Processing column 'parental_level_of_education' with 5 unique values.
-2024-12-01 10:34:11,804 - src.data_preprocessing - INFO - Applied preloaded encoder to column 'parental_level_of_education'.
-2024-12-01 10:34:11,805 - src.data_preprocessing - INFO - Processing column 'lunch' with 2 unique values.
-2024-12-01 10:34:11,806 - src.data_preprocessing - INFO - Processing column 'test_preparation_course' with 3 unique values.
-2024-12-01 10:34:11,811 - src.data_preprocessing - INFO - Completed handling of categorical features.
-2024-12-01 10:34:11,811 - src.data_preprocessing - INFO - Aligning columns with training data: ['race_ethnicity', 'parental_level_of_education', 'reading_score', 'writing_score', 'gender_female', 'gender_male', 'lunch_free/reduced', 'lunch_standard', 'test_preparation_course_completed', 'test_preparation_course_none']
-2024-12-01 10:34:11,811 - src.pipeline - INFO - Imputation and encoding complete.
-2024-12-01 10:34:11,811 - src.pipeline - INFO - Applying feature engineering using saved feature definitions...
-2024-12-01 10:34:11,834 - src.pipeline - INFO - Feature engineering complete.
-2024-12-01 10:34:11,834 - src.pipeline - INFO - Aligning features with the training data...
-2024-12-01 10:34:11,835 - src.pipeline - INFO - Making predictions...
-2024-12-01 10:34:11,836 - src.pipeline - INFO - Predictions before reshape: (11,)
-2024-12-01 10:34:11,836 - src.pipeline - INFO - Predictions after reshape: (11,)
-2024-12-01 10:34:11,836 - src.pipeline - INFO - Predictions complete.
+3  Gradient Boosting  5.609478
+6           AdaBoost  6.166099
+8           LightGBM  6.226237
+2      Random Forest  6.324606
+7        Extra Trees  6.543948
+5            XGBoost  7.190288
+1      Decision Tree  8.250455
+0                KNN  9.112925
+4                SVR  9.466029
+2024-12-02 16:36:40,506 - src.model_selection - INFO - Best Model: Gradient Boosting
+2024-12-02 16:36:40,508 - src.pipeline - INFO - Scaling the target variable...
+2024-12-02 16:36:40,508 - src.pipeline - INFO - Performing hyperparameter tuning for the best model: Gradient Boosting...
+2024-12-02 16:36:40,508 - src.hyperparameter_tuning - INFO - Starting hyperparameter tuning for Gradient Boosting...
+2024-12-02 16:36:40,508 - src.hyperparameter_tuning - INFO - Performing hyperparameter tuning for Gradient Boosting...
+2024-12-02 16:36:56,641 - src.hyperparameter_tuning - INFO - Best hyperparameters for Gradient Boosting: {'learning_rate': 0.1, 'max_depth': 3, 'n_estimators': 100, 'subsample': 1.0}
+2024-12-02 16:36:56,643 - src.hyperparameter_tuning - INFO - RMSE of the tuned Gradient Boosting model: 5.609193524418713
+2024-12-02 16:36:56,643 - src.pipeline - INFO - Finalizing and evaluating the model...
+2024-12-02 16:36:56,643 - src.finalization - INFO - Initializing the model with best hyperparameters...
+2024-12-02 16:36:56,643 - src.finalization - INFO - Training the model with best hyperparameters...
+2024-12-02 16:36:56,717 - src.finalization - INFO - Predicting on the test set...
+2024-12-02 16:36:56,719 - src.finalization - INFO - Evaluating model performance...
+2024-12-02 16:36:56,719 - src.finalization - INFO - RMSE of the final model: 5.609279225822951
+2024-12-02 16:36:56,720 - src.finalization - INFO - R-squared of the final model: 0.870698527510459
+2024-12-02 16:36:56,720 - src.finalization - INFO - Extracting feature importances...
+2024-12-02 16:36:56,720 - src.finalization - INFO - Plotting feature importances...
+2024-12-02 16:37:34,522 - src.finalization - INFO - Model saved as best_model.joblib
+2024-12-02 16:37:34,522 - src.pipeline - INFO - Final metrics: {'RMSE': np.float64(5.609279225822951), 'R-squared': 0.870698527510459}
+2024-12-02 16:37:34,523 - src.pipeline - INFO - Saving the model and associated artifacts...
+2024-12-02 16:37:34,528 - src.pipeline - INFO - Model and artifacts saved successfully.
+2024-12-02 16:37:43,389 - src.finalization - INFO - src.finalization module loaded
+2024-12-02 16:37:43,872 - src.pipeline - INFO - Loading trained model and artifacts for prediction...
+2024-12-02 16:37:43,895 - src.pipeline - INFO - Model and artifacts loaded successfully.
+2024-12-02 16:37:43,895 - src.pipeline - INFO - Loading and preprocessing new data from data/Test.csv...
+2024-12-02 16:37:43,898 - src.pipeline - INFO - Applying imputation and encoding to new data...
+2024-12-02 16:37:43,898 - src.utils - INFO - Starting automatic imputation...
+2024-12-02 16:37:43,898 - src.utils - INFO - Numerical columns: ['reading_score', 'writing_score']
+2024-12-02 16:37:43,898 - src.utils - INFO - Categorical columns: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
+2024-12-02 16:37:43,899 - src.utils - INFO - Processing column 'gender' with 0.00% missing values.
+2024-12-02 16:37:43,899 - src.utils - INFO - Column 'gender' has no missing values. Skipping imputation.
+2024-12-02 16:37:43,899 - src.utils - INFO - Processing column 'race_ethnicity' with 0.00% missing values.
+2024-12-02 16:37:43,899 - src.utils - INFO - Column 'race_ethnicity' has no missing values. Skipping imputation.
+2024-12-02 16:37:43,899 - src.utils - INFO - Processing column 'parental_level_of_education' with 0.00% missing values.
+2024-12-02 16:37:43,899 - src.utils - INFO - Column 'parental_level_of_education' has no missing values. Skipping imputation.
+2024-12-02 16:37:43,900 - src.utils - INFO - Processing column 'lunch' with 0.00% missing values.
+2024-12-02 16:37:43,900 - src.utils - INFO - Column 'lunch' has no missing values. Skipping imputation.
+2024-12-02 16:37:43,900 - src.utils - INFO - Processing column 'test_preparation_course' with 0.00% missing values.
+2024-12-02 16:37:43,900 - src.utils - INFO - Column 'test_preparation_course' has no missing values. Skipping imputation.
+2024-12-02 16:37:43,900 - src.utils - INFO - Processing column 'reading_score' with 0.00% missing values.
+2024-12-02 16:37:43,900 - src.utils - INFO - Column 'reading_score' has no missing values. Skipping imputation.
+2024-12-02 16:37:43,900 - src.utils - INFO - Processing column 'writing_score' with 0.00% missing values.
+2024-12-02 16:37:43,900 - src.utils - INFO - Column 'writing_score' has no missing values. Skipping imputation.
+2024-12-02 16:37:43,900 - src.utils - INFO - Imputation complete.
+2024-12-02 16:37:43,900 - src.data_preprocessing - INFO - Starting to handle categorical features...
+2024-12-02 16:37:43,901 - src.data_preprocessing - INFO - Categorical columns identified: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
+2024-12-02 16:37:43,901 - src.data_preprocessing - INFO - Processing column 'gender' with 2 unique values.
+2024-12-02 16:37:43,902 - src.data_preprocessing - INFO - Processing column 'race_ethnicity' with 4 unique values.
+2024-12-02 16:37:43,904 - src.data_preprocessing - INFO - Applied preloaded encoder to column 'race_ethnicity'.
+2024-12-02 16:37:43,904 - src.data_preprocessing - INFO - Processing column 'parental_level_of_education' with 5 unique values.
+2024-12-02 16:37:43,905 - src.data_preprocessing - INFO - Applied preloaded encoder to column 'parental_level_of_education'.
+2024-12-02 16:37:43,905 - src.data_preprocessing - INFO - Processing column 'lunch' with 2 unique values.
+2024-12-02 16:37:43,906 - src.data_preprocessing - INFO - Processing column 'test_preparation_course' with 3 unique values.
+2024-12-02 16:37:43,911 - src.data_preprocessing - INFO - Completed handling of categorical features.
+2024-12-02 16:37:43,912 - src.data_preprocessing - INFO - Aligning columns with training data: ['race_ethnicity', 'parental_level_of_education', 'reading_score', 'writing_score', 'gender_female', 'gender_male', 'lunch_free/reduced', 'lunch_standard', 'test_preparation_course_completed', 'test_preparation_course_none']
+2024-12-02 16:37:43,912 - src.pipeline - INFO - Imputation and encoding complete.
+2024-12-02 16:37:43,912 - src.pipeline - INFO - Applying feature engineering using saved feature definitions...
+2024-12-02 16:37:43,936 - src.pipeline - INFO - Feature engineering complete.
+2024-12-02 16:37:43,937 - src.pipeline - INFO - Applying feature selection...
+2024-12-02 16:37:43,937 - src.pipeline - INFO - Feature matrix reduced to selected features: (11, 7)
+2024-12-02 16:37:43,937 - src.pipeline - INFO - Making predictions...
+2024-12-02 16:37:43,938 - src.pipeline - INFO - Predictions before reshape: (11,)
+2024-12-02 16:37:43,938 - src.pipeline - INFO - Predictions after reshape: (11,)
+2024-12-02 16:37:43,938 - src.pipeline - INFO - Predictions complete.
